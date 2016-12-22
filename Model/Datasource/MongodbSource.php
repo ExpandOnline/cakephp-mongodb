@@ -1147,9 +1147,12 @@ class MongodbSource extends DboSource {
 				}
 				$return = $_return;
 			} else {
+				if (!is_numeric(current($fields))) {
+					$fields = array_combine($fields, array_fill(0, count($fields), 1));
+				}
 				$return = $this->_db
 					->selectCollection($Model->table)
-					->find($conditions, array_combine($fields, array_fill(0, count($fields), 1)))
+					->find($conditions, $fields)
 					->sort($order)
 					->limit($limit)
 					->skip($offset);
@@ -1172,6 +1175,9 @@ class MongodbSource extends DboSource {
 				);
 			}
 		} else {
+			if (!is_numeric(current($fields))) {
+				$fields = array_combine($fields, array_fill(0, count($fields), 1));
+			}
 			$options = array_filter(array(
 				'findandmodify' => $table,
 				'query' => $conditions,
@@ -1179,7 +1185,7 @@ class MongodbSource extends DboSource {
 				'remove' => !empty($remove),
 				'update' => $this->setMongoUpdateOperator($Model, $modify),
 				'new' => !empty($new),
-				'fields' => array_combine($fields, array_fill(0, count($fields), 1)),
+				'fields' => $fields,
 				'upsert' => !empty($upsert)
 			));
 			$return = $this->_db
