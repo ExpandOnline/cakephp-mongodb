@@ -1147,7 +1147,7 @@ class MongodbSource extends DboSource {
 				}
 				$return = $_return;
 			} else {
-				if (!is_numeric(current($fields))) {
+				if (!empty($fields) && !is_numeric(current($fields))) {
 					$fields = array_combine($fields, array_fill(0, count($fields), 1));
 				}
 				$return = $this->_db
@@ -1175,7 +1175,7 @@ class MongodbSource extends DboSource {
 				);
 			}
 		} else {
-			if (!is_numeric(current($fields))) {
+			if (!empty($fields) && !is_numeric(current($fields))) {
 				$fields = array_combine($fields, array_fill(0, count($fields), 1));
 			}
 			$options = array_filter(array(
