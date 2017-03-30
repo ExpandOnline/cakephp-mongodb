@@ -1254,7 +1254,7 @@ class MongodbSource extends DboSource {
 			));
 		$countOfAggregatedResults = $this->_db
 			->selectCollection($Model->table)
-			->aggregate($countConditions);
+			->aggregate($countConditions, ['allowDiskUse' => true]);
 		if (!empty($countOfAggregatedResults['result'])) {
 			$countOfAggregatedResults = $countOfAggregatedResults['result'][0]['count'];
 		} else {
