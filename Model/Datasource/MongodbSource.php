@@ -1138,7 +1138,7 @@ class MongodbSource extends DboSource {
 				}
 				$return = $this->_db
 					->selectCollection($Model->table)
-					->aggregate($conditions['aggregate'], ['allowDiskUse' => true]);
+					->aggregate($conditions['aggregate'], ['allowDiskUse' => true, 'cursor' => true,]);
 				//Format $return in a format that cake expects
 				$_return = array();
 				foreach($return['result'] as $result)
@@ -1254,7 +1254,7 @@ class MongodbSource extends DboSource {
 			));
 		$countOfAggregatedResults = $this->_db
 			->selectCollection($Model->table)
-			->aggregate($countConditions, ['allowDiskUse' => true]);
+			->aggregate($countConditions, ['allowDiskUse' => true, 'cursor' => true,]);
 		if (!empty($countOfAggregatedResults['result'])) {
 			$countOfAggregatedResults = $countOfAggregatedResults['result'][0]['count'];
 		} else {
